@@ -3,7 +3,7 @@
 	Description: Child Theme for Semplice
 	Author: Semplicelabs
 	Template: semplice7
-	Version: 1.0.2 - Arrow Animation Fix
+        Version: 1.0.3 - Image Reveal
 */
 
 /* Custom CSS Start */
@@ -433,6 +433,19 @@ div.smp-code a.brandon-quicklink-style {
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
+}
+
+/* ========== IMAGE REVEAL ON SCROLL ========== */
+.brandon-img-reveal {
+    display: block;
+    overflow: hidden;
+}
+
+.brandon-img-reveal img {
+    display: block;
+    width: 100%;
+    clip-path: inset(100% 0 0 0);
+    will-change: clip-path;
 }
 
 
