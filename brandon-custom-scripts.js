@@ -7,7 +7,7 @@
 (function() {
   'use strict';
   
-  const BRANDON_DEBUG_MODE = true;
+  const BRANDON_DEBUG_MODE = false;
 
 function logDebug(...args) {
   if (BRANDON_DEBUG_MODE && console && console.log) {
@@ -656,18 +656,24 @@ window.addEventListener('sempliceTransitionInDone', () => {
   }, 100);
 });
 
-   window.addEventListener('sempliceTransitionInDone', () => {
-  console.log('[BRANDON CUSTOM] Semplice Transition In Done: DOM is ready');
-  setTimeout(() => {
-    console.log('[BRANDON CUSTOM] Initializing components after transition delay');
-    initializeBrandonComponents();
-  }, 100);
-});
-   
-   document.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    console.log('[DEBUG] Link clicked:', link.href);
+  window.addEventListener('sempliceTransitionInDone', () => {
+    if (BRANDON_DEBUG_MODE) {
+      console.log('[BRANDON CUSTOM] Semplice Transition In Done: DOM is ready');
+    }
+    setTimeout(() => {
+      if (BRANDON_DEBUG_MODE) {
+        console.log('[BRANDON CUSTOM] Initializing components after transition delay');
+      }
+      initializeBrandonComponents();
+    }, 100);
   });
-});
+
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (BRANDON_DEBUG_MODE) {
+        console.log('[DEBUG] Link clicked:', link.href);
+      }
+    });
+  });
 
 })();
