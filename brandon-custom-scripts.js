@@ -1,5 +1,5 @@
 // ==== BRANDON: GLOBAL SPA JS (Fully Optimized & Documented) ====
-// Version: 3.1.4 (Hero ScrollTrigger Precise Start/End)
+// Version: 3.2.0 (Image reveal animation)
 // Date: 2025-06-25
 // Author: Brandon Leach
 // Description: Optimized custom animations and interactions for Semplice WordPress theme
@@ -26,6 +26,7 @@
   // ========== STATE MANAGEMENT VARIABLES ==========
   let activeP5Instances = [];
   let brandonHeroScrollTrigger = null; // Variable to hold our specific ScrollTrigger instance
+  let brandonImageRevealTriggers = []; // Store ScrollTrigger instances for image reveals
 
   function brandonLog(...args) {
     if (BRANDON_CONFIG.debug && window && window.console) {
@@ -567,8 +568,29 @@
     });
   }
 
+  function initializeImageRevealAnimation() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      brandonLog("IMG REVEAL: GSAP or ScrollTrigger not available.");
+      return;
+    }
+    document.querySelectorAll('.brandon-img-reveal img').forEach(img => {
+      if (img.dataset.brandonImgReveal === 'true') return;
+      img.dataset.brandonImgReveal = 'true';
+      gsap.set(img, { clipPath: 'inset(100% 0% 0% 0%)' });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: img,
+          start: 'bottom bottom',
+          toggleActions: 'play none none reverse',
+        }
+      });
+      tl.to(img, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power1.out' });
+      brandonImageRevealTriggers.push(tl.scrollTrigger);
+    });
+  }
+
   function initializeBrandonComponents() {
-    brandonLog("Initializing Brandon Components (v3.1.4)");
+    brandonLog("Initializing Brandon Components (v3.2.0)");
     if (!initializeGSAP()) return;
 
     initializeButtonHandlers();
@@ -576,6 +598,7 @@
     initializeSmoothScrollHandlers();
     initializeBrandonAnimations();
     initializeHeroScrollAnimation();
+    initializeImageRevealAnimation();
 
     try {
       injectBackgroundContainers();
@@ -612,6 +635,9 @@
         brandonHeroScrollTrigger.kill();
         brandonHeroScrollTrigger = null;
     }
+
+    brandonImageRevealTriggers.forEach(st => st.kill());
+    brandonImageRevealTriggers = [];
     
     if (window.ScrollTrigger) {
         ScrollTrigger.refresh();
