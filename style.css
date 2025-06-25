@@ -425,8 +425,14 @@ div.smp-code a.brandon-quicklink-style {
 .brandon-reveal-link-js.brandon-arrow-diag-down:hover .brandon-arrow-one { 
     transform: translate(150%, 150%); /* Exits bottom-right */
 }
-.brandon-reveal-link-js.brandon-arrow-diag-down:hover .brandon-arrow-two { 
+.brandon-reveal-link-js.brandon-arrow-diag-down:hover .brandon-arrow-two {
     transform: translate(-50%, -50%); /* Enters at center */
+}
+
+.brandon-word-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
 }
 
 
