@@ -23,7 +23,6 @@ function logDebug(...args) {
     timing: { buttonPress: 180, dotAnimation: 0.5, waveExpansion: 247 }
   };
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function brandonLog(...args) {
     if (BRANDON_CONFIG.debug && window && window.console) {
@@ -116,10 +115,6 @@ function logDebug(...args) {
   }
 
   function initializeDotsGridMenu() {
-    if (prefersReducedMotion) {
-        brandonLog("DOTS: Reduced motion, skipping.");
-        return;
-    }
     if (!initializeGSAP()) {
       brandonLog("DOTS: GSAP not ready, skipping.");
       return;
@@ -192,9 +187,6 @@ function logDebug(...args) {
   }
 
   function createSafeP5Instance(factory, element, label) {
-    if (prefersReducedMotion) {
-      return;
-    }
     if (typeof p5 === 'undefined') {
       brandonLog(`P5: Library not loaded. Cannot create sketch "${label}".`);
       return null;
@@ -292,7 +284,7 @@ function logDebug(...args) {
         p.noStroke();
         ({ DOT_GAP, BASE_DOT_SIZE } = getResponsiveGridSettings(p.width));
         dotsArr = computeGrid(p.width, p.height, DOT_GAP);
-        if (!prefersReducedMotion) p.loop(); else p.noLoop();
+        p.loop();
       };
 
       p.draw = function() {
@@ -335,7 +327,7 @@ function logDebug(...args) {
         p.noStroke();
         ({ DOT_GAP, BASE_DOT_SIZE } = getResponsiveGridSettings(p.width));
         dotsArr = computeGrid(p.width, p.height, DOT_GAP);
-        if (!prefersReducedMotion) p.loop(); else p.noLoop();
+        p.loop();
       };
 
       p.draw = function() {
@@ -381,7 +373,7 @@ function logDebug(...args) {
         centerY = p.height / 2;
         maxDist = Math.sqrt(centerX * centerX + centerY * centerY) + thickness;
         startTime = p.millis();
-        if (!prefersReducedMotion) p.loop(); else p.noLoop();
+        p.loop();
       };
 
       p.draw = function() {
@@ -610,20 +602,13 @@ function logDebug(...args) {
     brandonLog("Cleanup: Flags reset.");
   }
 
-  function safeInitialize() {
-    brandonLog("SPA Event (sempliceAppendContent or popstate) triggered: Re-initializing components.");
+  // ===== INITIALIZATION EVENTS =====
+  document.addEventListener('DOMContentLoaded', initializeBrandonComponents);
+
+  window.addEventListener('sempliceTransitionInDone', () => {
     cleanupBeforeInit();
-    setTimeout(initializeBrandonComponents, 250);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeBrandonComponents);
-  } else {
-    initializeBrandonComponents();
-  }
-
-  window.addEventListener('sempliceAppendContent', safeInitialize);
-  window.addEventListener('popstate', debounce(safeInitialize, 250));
+    setTimeout(initializeBrandonComponents, 100);
+  });
 
   // ===== DEBUG: PAGE LIFECYCLE EVENTS =====
     document.addEventListener('DOMContentLoaded', () => {
