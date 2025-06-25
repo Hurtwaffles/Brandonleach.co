@@ -542,13 +542,20 @@
 
         const split = new SplitText(textParagraph, { type: "words" });
 
+        split.words.forEach(word => {
+          const mask = document.createElement('span');
+          mask.classList.add('brandon-word-mask');
+          mask.style.height = word.offsetHeight + 'px';
+          word.parentNode.insertBefore(mask, word);
+          mask.appendChild(word);
+        });
+
         if (split.words.length > 0) {
-          masterTimeline.fromTo(split.words,
-            { opacity: 1, y: 0, filter: 'none' },
+          masterTimeline.fromTo(
+            split.words,
+            { y: 0 },
             {
-              y: -40,
-              opacity: 0,
-              filter: 'blur(8px)',
+              y: (i, target) => -target.offsetHeight,
               duration: 0.6,
               ease: "power2.in",
               stagger: { each: 0.03, from: "start" }
