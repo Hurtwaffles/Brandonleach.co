@@ -610,64 +610,12 @@ function logDebug(...args) {
     brandonLog("Cleanup: Flags reset.");
   }
 
-  function safeInitialize() {
-    brandonLog("SPA Event (sempliceAppendContent or popstate) triggered: Re-initializing components.");
+  // ===== INITIALIZATION EVENTS =====
+  document.addEventListener('DOMContentLoaded', initializeBrandonComponents);
+
+  window.addEventListener('sempliceTransitionInDone', () => {
     cleanupBeforeInit();
-    setTimeout(initializeBrandonComponents, 250);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeBrandonComponents);
-  } else {
-    initializeBrandonComponents();
-  }
-
-  window.addEventListener('sempliceAppendContent', safeInitialize);
-  window.addEventListener('popstate', debounce(safeInitialize, 250));
-
-  // ===== DEBUG: PAGE LIFECYCLE EVENTS =====
-    document.addEventListener('DOMContentLoaded', () => {
-      logDebug('DOMContentLoaded fired');
-    });
-    
-    window.addEventListener('load', () => {
-      logDebug('window.load fired');
-    });
-    
-    window.addEventListener('sempliceTransitionInDone', () => {
-      logDebug('sempliceTransitionInDone fired');
-    });
-    
-    window.addEventListener('load', () => {
-  const hero = document.querySelector('.brandon-hero-stagger-exit');
-  logDebug('Hero element exists after load:', !!hero);
-});
-   
-   window.addEventListener('sempliceTransitionInDone', () => {
-  const hero = document.querySelector('.brandon-hero-stagger-exit');
-  logDebug('Hero element exists after transition:', !!hero);
-});
-
-window.addEventListener('sempliceTransitionInDone', () => {
-  logDebug('Semplice Transition In Done: Re-initializing components');
-  setTimeout(() => {
-    logDebug('Initializing components after SPA delay');
-    initializeBrandonComponents();
-  }, 100);
-});
-
-   window.addEventListener('sempliceTransitionInDone', () => {
-  console.log('[BRANDON CUSTOM] Semplice Transition In Done: DOM is ready');
-  setTimeout(() => {
-    console.log('[BRANDON CUSTOM] Initializing components after transition delay');
-    initializeBrandonComponents();
-  }, 100);
-});
-   
-   document.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    console.log('[DEBUG] Link clicked:', link.href);
+    setTimeout(initializeBrandonComponents, 100);
   });
-});
 
 })();
