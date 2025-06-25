@@ -7,7 +7,7 @@
 (function() {
   'use strict';
   
-  const BRANDON_DEBUG_MODE = true;
+  const BRANDON_DEBUG_MODE = false;
 
 function logDebug(...args) {
   if (BRANDON_DEBUG_MODE && console && console.log) {
@@ -608,6 +608,57 @@ function logDebug(...args) {
   window.addEventListener('sempliceTransitionInDone', () => {
     cleanupBeforeInit();
     setTimeout(initializeBrandonComponents, 100);
+  });
+
+  // ===== DEBUG: PAGE LIFECYCLE EVENTS =====
+    document.addEventListener('DOMContentLoaded', () => {
+      logDebug('DOMContentLoaded fired');
+    });
+    
+    window.addEventListener('load', () => {
+      logDebug('window.load fired');
+    });
+    
+    window.addEventListener('sempliceTransitionInDone', () => {
+      logDebug('sempliceTransitionInDone fired');
+    });
+    
+    window.addEventListener('load', () => {
+  const hero = document.querySelector('.brandon-hero-stagger-exit');
+  logDebug('Hero element exists after load:', !!hero);
+});
+   
+   window.addEventListener('sempliceTransitionInDone', () => {
+  const hero = document.querySelector('.brandon-hero-stagger-exit');
+  logDebug('Hero element exists after transition:', !!hero);
+});
+
+window.addEventListener('sempliceTransitionInDone', () => {
+  logDebug('Semplice Transition In Done: Re-initializing components');
+  setTimeout(() => {
+    logDebug('Initializing components after SPA delay');
+    initializeBrandonComponents();
+  }, 100);
+});
+
+  window.addEventListener('sempliceTransitionInDone', () => {
+    if (BRANDON_DEBUG_MODE) {
+      console.log('[BRANDON CUSTOM] Semplice Transition In Done: DOM is ready');
+    }
+    setTimeout(() => {
+      if (BRANDON_DEBUG_MODE) {
+        console.log('[BRANDON CUSTOM] Initializing components after transition delay');
+      }
+      initializeBrandonComponents();
+    }, 100);
+  });
+
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (BRANDON_DEBUG_MODE) {
+        console.log('[DEBUG] Link clicked:', link.href);
+      }
+    });
   });
 
 })();
