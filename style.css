@@ -3,7 +3,7 @@
 	Description: Child Theme for Semplice
 	Author: Semplicelabs
 	Template: semplice7
-        Version: 1.0.3 - Image Reveal
+	Version: 1.0.2 - Arrow Animation Fix
 */
 
 /* Custom CSS Start */
@@ -392,7 +392,7 @@ div.smp-code a.brandon-quicklink-style {
 	overflow: hidden;
 }
 .brandon-reveal-link-js .brandon-arrow {
-	font-size: 0.9em;
+	font-size: 1em;
 	display: inline-block;
 	position: absolute;
 	left: 50%;
@@ -409,10 +409,10 @@ div.smp-code a.brandon-quicklink-style {
 */
 /* Up-arrow animation logic */
 .brandon-reveal-link-js.brandon-arrow-diag-up .brandon-arrow-two { 
-    transform: translate(-150%, 50%); /* Starts bottom-left */
+    transform: translate(-180%, 15%); /* Starts bottom-left */
 }
 .brandon-reveal-link-js.brandon-arrow-diag-up:hover .brandon-arrow-one { 
-    transform: translate(50%, -150%); /* Exits top-right */
+    transform: translate(150%, -150%); /* Exits top-right */
 }
 .brandon-reveal-link-js.brandon-arrow-diag-up:hover .brandon-arrow-two { 
     transform: translate(-50%, -50%); /* Enters at center */
@@ -420,10 +420,10 @@ div.smp-code a.brandon-quicklink-style {
 
 /* Down-arrow animation logic */
 .brandon-reveal-link-js.brandon-arrow-diag-down .brandon-arrow-two { 
-    transform: translate(-150%, -150%); /* Starts top-left */
+    transform: translate(-180%, -15%); /* Starts top-left */
 }
 .brandon-reveal-link-js.brandon-arrow-diag-down:hover .brandon-arrow-one { 
-    transform: translate(150%, 150%); /* Exits bottom-right */
+    transform: translate(-20%, -180%); /* Exits bottom-right */
 }
 .brandon-reveal-link-js.brandon-arrow-diag-down:hover .brandon-arrow-two {
     transform: translate(-50%, -50%); /* Enters at center */
@@ -433,19 +433,6 @@ div.smp-code a.brandon-quicklink-style {
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
-}
-
-/* ========== IMAGE REVEAL ON SCROLL ========== */
-.brandon-img-reveal {
-    display: block;
-    overflow: hidden;
-}
-
-.brandon-img-reveal img {
-    display: block;
-    width: 100%;
-    clip-path: inset(100% 0 0 0);
-    will-change: clip-path;
 }
 
 
