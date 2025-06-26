@@ -3,7 +3,7 @@
 	Description: Child Theme for Semplice
 	Author: Semplicelabs
 	Template: semplice7
-	Version: 1.0.2 - Arrow Animation Fix
+        Version: 1.0.4 - SVG Arrow
 */
 
 /* Custom CSS Start */
@@ -146,15 +146,29 @@
 }
 
 .brandon-arrow {
-	font-size: 1em;
-	display: inline-block;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	transition: transform 0.45s var(--brandon-transition-ease);
-	will-change: transform;
-	pointer-events: none;
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition: transform 0.45s var(--brandon-transition-ease);
+        will-change: transform;
+        pointer-events: none;
+}
+
+.brandon-arrow svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+}
+
+.brandon-arrow-diag-up .brandon-arrow svg {
+        transform: rotate(-45deg);
+}
+.brandon-arrow-diag-down .brandon-arrow svg {
+        transform: rotate(45deg);
 }
 
 .brandon-animated-button-reveal.brandon-arrow-diag-up .brandon-arrow-one {
@@ -392,16 +406,22 @@ div.smp-code a.brandon-quicklink-style {
 	overflow: hidden;
 }
 .brandon-reveal-link-js .brandon-arrow {
-	font-size: 1em;
-	display: inline-block;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transition: transform 0.45s var(--brandon-transition-ease);
-	will-change: transform;
-	pointer-events: none;
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transition: transform 0.45s var(--brandon-transition-ease);
+        will-change: transform;
+        pointer-events: none;
     /* The base position, which is centered. */
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
+}
+.brandon-reveal-link-js .brandon-arrow svg {
+        width: 100%;
+        height: 100%;
+        display: block;
 }
 
 /*

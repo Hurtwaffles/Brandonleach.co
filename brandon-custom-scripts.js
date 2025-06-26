@@ -486,16 +486,31 @@
       if (hasArrow) {
         const arrowClass = Array.from(module.classList).find(cls => cls.startsWith('with-arrow-'));
         const arrowDirection = arrowClass.replace('with-arrow-', '');
-        const arrowChar = arrowDirection === 'diag-down' ? '↘' : '↗';
         const arrowMask = document.createElement('span');
         arrowMask.className = 'brandon-arrow-mask';
         arrowMask.style.color = originalColor;
+
+        const createArrowSVG = () => {
+          const ns = 'http://www.w3.org/2000/svg';
+          const svg = document.createElementNS(ns, 'svg');
+          svg.setAttribute('viewBox', '0 0 24 24');
+          const path = document.createElementNS(ns, 'path');
+          path.setAttribute('d', 'M4 12h12m0 0l-6-6m6 6l-6 6');
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', 'currentColor');
+          path.setAttribute('stroke-width', '2');
+          path.setAttribute('stroke-linecap', 'round');
+          path.setAttribute('stroke-linejoin', 'round');
+          svg.appendChild(path);
+          return svg;
+        };
+
         const arrowOne = document.createElement('span');
         arrowOne.className = 'brandon-arrow brandon-arrow-one';
-        arrowOne.textContent = arrowChar;
+        arrowOne.appendChild(createArrowSVG());
         const arrowTwo = document.createElement('span');
         arrowTwo.className = 'brandon-arrow brandon-arrow-two';
-        arrowTwo.textContent = arrowChar;
+        arrowTwo.appendChild(createArrowSVG());
         arrowMask.append(arrowOne, arrowTwo);
         link.append(arrowMask);
         link.classList.add(`brandon-arrow-${arrowDirection}`);
