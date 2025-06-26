@@ -1,5 +1,5 @@
 // ==== BRANDON: GLOBAL SPA JS (Fully Optimized & Documented) ====
-// Version: 3.2.0 (Image reveal animation)
+// Version: 3.1.4 (Hero ScrollTrigger Precise Start/End)
 // Date: 2025-06-25
 // Author: Brandon Leach
 // Description: Optimized custom animations and interactions for Semplice WordPress theme
@@ -26,7 +26,6 @@
   // ========== STATE MANAGEMENT VARIABLES ==========
   let activeP5Instances = [];
   let brandonHeroScrollTrigger = null; // Variable to hold our specific ScrollTrigger instance
-  let brandonImageRevealTriggers = []; // Store ScrollTrigger instances for image reveals
 
   function brandonLog(...args) {
     if (BRANDON_CONFIG.debug && window && window.console) {
@@ -524,7 +523,7 @@
           trigger: triggerElement,
           // ---- START: SCROLLTRIGGER FIX ----
           // Start after scrolling 50px from the top of the page.
-          start: 50,
+          start: 10,
           // End when the bottom of the element hits the bottom of the viewport.
           end: "+=300", 
           // ---- END: SCROLLTRIGGER FIX ----
@@ -538,10 +537,12 @@
 
       const lines = triggerElement.querySelectorAll('.stagger-line');
       lines.forEach(line => {
-        const textParagraph = line.querySelector('.is-content p');
-        if (!textParagraph) return;
-
-        const split = new SplitText(textParagraph, { type: "words" });
+      
+      const textElement = line.querySelector(
+        '.is-content h1, .is-content h2, .is-content h3, .is-content h4, .is-content h5, .is-content h6, .is-content p');
+      if (!textElement) return;
+ 
+          const split = new SplitText(textElement, { type: "words" });
 
         split.words.forEach(word => {
           const mask = document.createElement('span');
@@ -568,29 +569,8 @@
     });
   }
 
-  function initializeImageRevealAnimation() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      brandonLog("IMG REVEAL: GSAP or ScrollTrigger not available.");
-      return;
-    }
-    document.querySelectorAll('.brandon-img-reveal img').forEach(img => {
-      if (img.dataset.brandonImgReveal === 'true') return;
-      img.dataset.brandonImgReveal = 'true';
-      gsap.set(img, { clipPath: 'inset(100% 0% 0% 0%)' });
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: img,
-          start: 'bottom bottom',
-          toggleActions: 'play none none reverse',
-        }
-      });
-      tl.to(img, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power1.out' });
-      brandonImageRevealTriggers.push(tl.scrollTrigger);
-    });
-  }
-
   function initializeBrandonComponents() {
-    brandonLog("Initializing Brandon Components (v3.2.0)");
+    brandonLog("Initializing Brandon Components (v3.1.4)");
     if (!initializeGSAP()) return;
 
     initializeButtonHandlers();
@@ -598,7 +578,6 @@
     initializeSmoothScrollHandlers();
     initializeBrandonAnimations();
     initializeHeroScrollAnimation();
-    initializeImageRevealAnimation();
 
     try {
       injectBackgroundContainers();
@@ -635,9 +614,6 @@
         brandonHeroScrollTrigger.kill();
         brandonHeroScrollTrigger = null;
     }
-
-    brandonImageRevealTriggers.forEach(st => st.kill());
-    brandonImageRevealTriggers = [];
     
     if (window.ScrollTrigger) {
         ScrollTrigger.refresh();
