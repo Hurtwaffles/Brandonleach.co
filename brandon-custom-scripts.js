@@ -492,9 +492,6 @@
 
 //<<<<<<< 2nn6zu-codex/fix-arrow-animation-misalignment
         const createArrowSVG = (strokeWidth) => {
-//=======
-        const createArrowSVG = () => {
-//>>>>>>> main
           const ns = 'http://www.w3.org/2000/svg';
           const svg = document.createElementNS(ns, 'svg');
           svg.setAttribute('viewBox', '0 0 24 24');
@@ -504,9 +501,6 @@
           path.setAttribute('stroke', 'currentColor');
 //<<<<<<< 2nn6zu-codex/fix-arrow-animation-misalignment
           path.setAttribute('stroke-width', strokeWidth);
-//=======
-          path.setAttribute('stroke-width', '2');
-//>>>>>>> main
           path.setAttribute('stroke-linecap', 'round');
           path.setAttribute('stroke-linejoin', 'round');
           svg.appendChild(path);
@@ -524,14 +518,6 @@
         const arrowTwo = document.createElement('span');
         arrowTwo.className = 'brandon-arrow brandon-arrow-two';
         arrowTwo.appendChild(createArrowSVG(strokeWidth));
-//=======
-        const arrowOne = document.createElement('span');
-        arrowOne.className = 'brandon-arrow brandon-arrow-one';
-        arrowOne.appendChild(createArrowSVG());
-        const arrowTwo = document.createElement('span');
-        arrowTwo.className = 'brandon-arrow brandon-arrow-two';
-        arrowTwo.appendChild(createArrowSVG());
-//>>>>>>> main
         arrowMask.append(arrowOne, arrowTwo);
         link.append(arrowMask);
         link.classList.add(`brandon-arrow-${arrowDirection}`);
