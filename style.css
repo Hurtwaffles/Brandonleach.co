@@ -3,7 +3,7 @@
 	Description: Child Theme for Semplice
 	Author: Semplicelabs
 	Template: semplice7
-       Version: 1.0.6 - Arrow tweaks
+       Version: 1.0.7 - Arrow image
 */
 
 /* Custom CSS Start */
@@ -13,7 +13,6 @@
 	--brandon-dark-text-color: #0E0E10;
 	--brandon-accent-color: #0202ED;
 	--brandon-font-family: 'soehne-mono-buch', monospace, sans-serif;
-        --brandon-arrow-stroke-width: 2;
 	--brandon-font-size-base: 1.167rem;
 	--brandon-font-size-large: 18pt;
 	--brandon-font-size-small: 12pt;
@@ -159,15 +158,18 @@
         pointer-events: none;
 }
 
+.brandon-arrow img,
 .brandon-arrow svg {
         width: 100%;
         height: 100%;
         display: block;
 }
 
+.brandon-arrow-diag-up .brandon-arrow img,
 .brandon-arrow-diag-up .brandon-arrow svg {
         transform: rotate(-45deg);
 }
+.brandon-arrow-diag-down .brandon-arrow img,
 .brandon-arrow-diag-down .brandon-arrow svg {
         transform: rotate(45deg);
 }
