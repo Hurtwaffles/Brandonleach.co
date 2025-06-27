@@ -490,7 +490,6 @@
         arrowMask.className = 'brandon-arrow-mask';
         arrowMask.style.color = originalColor;
 
-//<<<<<<< 2nn6zu-codex/fix-arrow-animation-misalignment
         const createArrowSVG = (strokeWidth) => {
           const ns = 'http://www.w3.org/2000/svg';
           const svg = document.createElementNS(ns, 'svg');
@@ -499,7 +498,6 @@
           path.setAttribute('d', 'M4 12h12m0 0l-6-6m6 6l-6 6');
           path.setAttribute('fill', 'none');
           path.setAttribute('stroke', 'currentColor');
-//<<<<<<< 2nn6zu-codex/fix-arrow-animation-misalignment
           path.setAttribute('stroke-width', strokeWidth);
           path.setAttribute('stroke-linecap', 'square');
           path.setAttribute('stroke-linejoin', 'miter');
@@ -507,7 +505,6 @@
           return svg;
         };
 
-//<<<<<<< 2nn6zu-codex/fix-arrow-animation-misalignment
         const computedWeight = parseInt(window.getComputedStyle(link).fontWeight, 10);
         const numericWeight = isNaN(computedWeight) ? 400 : computedWeight;
         const strokeWidth = Math.max(1, (numericWeight / 700) * 2).toFixed(2);
