@@ -1,5 +1,5 @@
 // ==== BRANDON: GLOBAL SPA JS (Fully Optimized & Documented) ====
-// Version: 3.1.4 (Hero ScrollTrigger Precise Start/End)
+// Version: 3.1.6 (Fonts Ready Hero Animation)
 // Date: 2025-06-25
 // Author: Brandon Leach
 // Description: Optimized custom animations and interactions for Semplice WordPress theme
@@ -523,63 +523,70 @@
       return;
     }
 
-    gsap.delayedCall(0.1, () => {
-      brandonLog("HERO SCROLL: Initializing robust scroll-out animation.");
+    function startHeroAnimation() {
+      gsap.delayedCall(0.1, () => {
+        brandonLog("HERO SCROLL: Initializing robust scroll-out animation.");
 
-      const masterTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: triggerElement,
-          // ---- START: SCROLLTRIGGER FIX ----
-          // Start after scrolling 50px from the top of the page.
-          start: 10,
-          // End when the bottom of the element hits the bottom of the viewport.
-          end: "+=300", 
-          // ---- END: SCROLLTRIGGER FIX ----
-          scrub: true,
-        }
-      });
-      
-      brandonHeroScrollTrigger = masterTimeline.scrollTrigger;
+        const masterTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: triggerElement,
+            // ---- START: SCROLLTRIGGER FIX ----
+            // Start after scrolling 50px from the top of the page.
+            start: 10,
+            // End when the bottom of the element hits the bottom of the viewport.
+            end: "+=300",
+            // ---- END: SCROLLTRIGGER FIX ----
+            scrub: true,
+          }
+        });
 
-      gsap.set(triggerElement, {autoAlpha: 1});
+        brandonHeroScrollTrigger = masterTimeline.scrollTrigger;
 
-      const lines = triggerElement.querySelectorAll('.stagger-line');
-      lines.forEach(line => {
-      
-      const textElement = line.querySelector(
-        '.is-content h1, .is-content h2, .is-content h3, .is-content h4, .is-content h5, .is-content h6, .is-content p');
-      if (!textElement) return;
- 
+        gsap.set(triggerElement, {autoAlpha: 1});
+
+        const lines = triggerElement.querySelectorAll('.stagger-line');
+        lines.forEach(line => {
+          const textElement = line.querySelector(
+            '.is-content h1, .is-content h2, .is-content h3, .is-content h4, .is-content h5, .is-content h6, .is-content p');
+          if (!textElement) return;
+
           const split = new SplitText(textElement, { type: "words" });
           heroSplitInstances.push(split);
 
-        split.words.forEach(word => {
-          const mask = document.createElement('span');
-          mask.classList.add('brandon-word-mask');
-          mask.style.height = word.offsetHeight + 'px';
-          word.parentNode.insertBefore(mask, word);
-          mask.appendChild(word);
-        });
+          split.words.forEach(word => {
+            const mask = document.createElement('span');
+            mask.classList.add('brandon-word-mask');
+            mask.style.height = word.offsetHeight + 'px';
+            word.parentNode.insertBefore(mask, word);
+            mask.appendChild(word);
+          });
 
-        if (split.words.length > 0) {
-          masterTimeline.fromTo(
-            split.words,
-            { y: 0 },
-            {
-              y: (i, target) => -target.offsetHeight,
-              duration: 0.6,
-              ease: "power2.in",
-              stagger: { each: 0.03, from: "start" }
-            },
-            "<0.2"
-          );
-        }
+          if (split.words.length > 0) {
+            masterTimeline.fromTo(
+              split.words,
+              { y: 0 },
+              {
+                y: (i, target) => -target.offsetHeight,
+                duration: 0.6,
+                ease: "power2.in",
+                stagger: { each: 0.03, from: "start" }
+              },
+              "<0.2"
+            );
+          }
+        });
       });
-    });
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(startHeroAnimation);
+    } else {
+      startHeroAnimation();
+    }
   }
 
   function initializeBrandonComponents() {
-    brandonLog("Initializing Brandon Components (v3.1.4)");
+    brandonLog("Initializing Brandon Components (v3.1.6)");
     if (!initializeGSAP()) return;
 
     initializeButtonHandlers();
