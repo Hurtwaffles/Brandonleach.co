@@ -495,7 +495,7 @@
           const svg = document.createElementNS(ns, 'svg');
           svg.setAttribute('viewBox', '0 0 24 24');
           const path = document.createElementNS(ns, 'path');
-          path.setAttribute('d', 'M4 12h12m0 0l-6-6m6 6l-6 6');
+          path.setAttribute('d', 'M4 12h12m0 0l-3-3m3 3l-3 3');
           path.setAttribute('fill', 'none');
           path.setAttribute('stroke', 'currentColor');
           path.setAttribute('stroke-width', strokeWidth);
@@ -505,9 +505,8 @@
           return svg;
         };
 
-        const computedWeight = parseInt(window.getComputedStyle(link).fontWeight, 10);
-        const numericWeight = isNaN(computedWeight) ? 400 : computedWeight;
-        const strokeWidth = Math.max(1, (numericWeight / 700) * 2).toFixed(2);
+        const rootStyles = window.getComputedStyle(document.documentElement);
+        const strokeWidth = parseFloat(rootStyles.getPropertyValue("--brandon-arrow-stroke-width")) || 2;
 
         const arrowOne = document.createElement('span');
         arrowOne.className = 'brandon-arrow brandon-arrow-one';

@@ -3,7 +3,7 @@
 	Description: Child Theme for Semplice
 	Author: Semplicelabs
 	Template: semplice7
-       Version: 1.0.5 - SVG Arrow
+       Version: 1.0.6 - Arrow tweaks
 */
 
 /* Custom CSS Start */
@@ -13,6 +13,7 @@
 	--brandon-dark-text-color: #0E0E10;
 	--brandon-accent-color: #0202ED;
 	--brandon-font-family: 'soehne-mono-buch', monospace, sans-serif;
+        --brandon-arrow-stroke-width: 2;
 	--brandon-font-size-base: 1.167rem;
 	--brandon-font-size-large: 18pt;
 	--brandon-font-size-small: 12pt;
@@ -59,7 +60,7 @@
 	display: inline-block;
 	position: relative;
 	overflow: hidden;
-	height: 1em;
+	height: 1.1em;
 	line-height: 1;
 }
 
@@ -138,16 +139,16 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 1em;
-	height: 1em;
+	width: 1.1em;
+	height: 1.1em;
 	margin-left: 8px;
 	position: relative;
 	overflow: hidden;
 }
 
 .brandon-arrow {
-        width: 1em;
-        height: 1em;
+        width: 1.1em;
+        height: 1.1em;
         display: inline-block;
         position: absolute;
         left: 50%;
@@ -396,33 +397,9 @@ div.smp-code a.brandon-quicklink-style {
 /* --- V4 Arrow Styling (FIXED) --- */
 
 .brandon-reveal-link-js .brandon-arrow-mask {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 1em;
-	height: 1em;
-	margin-left: 0.3em;
-	position: relative;
-	overflow: hidden;
+    margin-left: 0.3em;
 }
-.brandon-reveal-link-js .brandon-arrow {
-        width: 1em;
-        height: 1em;
-        display: inline-block;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transition: transform 0.45s var(--brandon-transition-ease);
-        will-change: transform;
-        pointer-events: none;
-    /* The base position, which is centered. */
-    transform: translate(-50%, -50%);
-}
-.brandon-reveal-link-js .brandon-arrow svg {
-        width: 100%;
-        height: 100%;
-        display: block;
-}
+
 
 /*
  * Corrected symmetrical arrow paths for true 45-degree animations.
