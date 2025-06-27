@@ -501,8 +501,8 @@
           path.setAttribute('stroke', 'currentColor');
 //<<<<<<< 2nn6zu-codex/fix-arrow-animation-misalignment
           path.setAttribute('stroke-width', strokeWidth);
-          path.setAttribute('stroke-linecap', 'round');
-          path.setAttribute('stroke-linejoin', 'round');
+          path.setAttribute('stroke-linecap', 'square');
+          path.setAttribute('stroke-linejoin', 'miter');
           svg.appendChild(path);
           return svg;
         };
