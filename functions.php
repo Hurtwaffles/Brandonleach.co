@@ -20,7 +20,11 @@ function brandon_enqueue_custom_scripts() {
         'brandon-custom-styles',
         get_stylesheet_uri(),
         array(),
+//<<<<<<< 2nn6zu-codex/fix-arrow-animation-misalignment
+        '1.0.5'
+//=======
         '1.0.4'
+//>>>>>>> main
     );
 
     // --- THIRD-PARTY LIBRARIES ---
@@ -65,7 +69,11 @@ function brandon_enqueue_custom_scripts() {
         'brandon-custom-scripts',
         get_stylesheet_directory_uri() . '/brandon-custom-scripts.js',
         array('brandon-p5', 'brandon-gsap-ce', 'brandon-gsap-st', 'brandon-gsap-stg'),
+//<<<<<<< 2nn6zu-codex/fix-arrow-animation-misalignment
+        '3.2.2', // Incremented version
+//=======
         '3.2.1', // Incremented version
+//>>>>>>> main
         true
     );
 }
