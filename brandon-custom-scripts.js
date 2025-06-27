@@ -1,5 +1,5 @@
 // ==== BRANDON: GLOBAL SPA JS (Fully Optimized & Documented) ====
-// Version: 3.1.5 (Hero ScrollTrigger Font Ready Fix)
+// Version: 3.1.6 (Fonts Ready Hero Animation)
 // Date: 2025-06-25
 // Author: Brandon Leach
 // Description: Optimized custom animations and interactions for Semplice WordPress theme
@@ -586,7 +586,7 @@
   }
 
   function initializeBrandonComponents() {
-    brandonLog("Initializing Brandon Components (v3.1.5)");
+    brandonLog("Initializing Brandon Components (v3.1.6)");
     if (!initializeGSAP()) return;
 
     initializeButtonHandlers();

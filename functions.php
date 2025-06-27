@@ -65,7 +65,7 @@ function brandon_enqueue_custom_scripts() {
         'brandon-custom-scripts',
         get_stylesheet_directory_uri() . '/brandon-custom-scripts.js',
         array('brandon-p5', 'brandon-gsap-ce', 'brandon-gsap-st', 'brandon-gsap-stg'),
-        '3.2.5', // Incremented version
+        '3.2.6', // Incremented version
         true
     );
 }
