@@ -587,6 +587,7 @@
 
   function initializeBrandonComponents() {
     brandonLog("Initializing Brandon Components (v3.1.6)");
+
     if (!initializeGSAP()) return;
 
     initializeButtonHandlers();
