@@ -1,5 +1,5 @@
 // ==== BRANDON: GLOBAL SPA JS (Fully Optimized & Documented) ====
-// Version: 3.1.6 (Fonts Ready Hero Animation)
+// Version: 3.1.7 (Fonts Ready Hero Animation)
 // Date: 2025-06-25
 // Author: Brandon Leach
 // Description: Optimized custom animations and interactions for Semplice WordPress theme
@@ -553,20 +553,12 @@
           const split = new SplitText(textElement, { type: "words" });
           heroSplitInstances.push(split);
 
-          split.words.forEach(word => {
-            const mask = document.createElement('span');
-            mask.classList.add('brandon-word-mask');
-            mask.style.height = word.offsetHeight + 'px';
-            word.parentNode.insertBefore(mask, word);
-            mask.appendChild(word);
-          });
-
           if (split.words.length > 0) {
             masterTimeline.fromTo(
               split.words,
-              { y: 0 },
+              { autoAlpha: 1 },
               {
-                y: (i, target) => -target.offsetHeight,
+                autoAlpha: 0,
                 duration: 0.6,
                 ease: "power2.in",
                 stagger: { each: 0.03, from: "start" }
@@ -586,7 +578,7 @@
   }
 
   function initializeBrandonComponents() {
-    brandonLog("Initializing Brandon Components (v3.1.6)");
+    brandonLog("Initializing Brandon Components (v3.1.7)");
 
     if (!initializeGSAP()) return;
 
@@ -636,12 +628,6 @@
         if (instance && typeof instance.revert === 'function') {
             instance.revert();
         }
-    });
-    document.querySelectorAll('.brandon-word-mask').forEach(mask => {
-        while (mask.firstChild) {
-            mask.parentNode.insertBefore(mask.firstChild, mask);
-        }
-        mask.remove();
     });
     heroSplitInstances = [];
 
