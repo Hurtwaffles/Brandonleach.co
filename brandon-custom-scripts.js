@@ -26,6 +26,7 @@
   // ========== STATE MANAGEMENT VARIABLES ==========
   let activeP5Instances = [];
   let brandonHeroScrollTrigger = null; // Variable to hold our specific ScrollTrigger instance
+  let heroSplitInstances = []; // Store SplitText instances for cleanup
 
   function brandonLog(...args) {
     if (BRANDON_CONFIG.debug && window && window.console) {
@@ -550,6 +551,7 @@
       if (!textElement) return;
  
           const split = new SplitText(textElement, { type: "words" });
+          heroSplitInstances.push(split);
 
         split.words.forEach(word => {
           const mask = document.createElement('span');
@@ -615,13 +617,26 @@
 
     window._brandonNavBtnHandlersInitialized = false;
     window._brandonSmoothScrollInitialized = false;
-    
+
     if (brandonHeroScrollTrigger) {
         logDebug("Killing custom hero ScrollTrigger instance.");
         brandonHeroScrollTrigger.kill();
         brandonHeroScrollTrigger = null;
     }
-    
+
+    heroSplitInstances.forEach(instance => {
+        if (instance && typeof instance.revert === 'function') {
+            instance.revert();
+        }
+    });
+    document.querySelectorAll('.brandon-word-mask').forEach(mask => {
+        while (mask.firstChild) {
+            mask.parentNode.insertBefore(mask.firstChild, mask);
+        }
+        mask.remove();
+    });
+    heroSplitInstances = [];
+
     if (window.ScrollTrigger) {
         ScrollTrigger.refresh();
     }
