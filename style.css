@@ -3,11 +3,7 @@
 	Description: Child Theme for Semplice
 	Author: Semplicelabs
 	Template: semplice7
-//<<<<<<< 2nn6zu-codex/fix-arrow-animation-misalignment
-       Version: 1.0.5 - SVG Arrow stroke width
-//=======
-        Version: 1.0.4 - SVG Arrow
-//>>>>>>> main
+       Version: 1.0.5 - SVG Arrow
 */
 
 /* Custom CSS Start */
@@ -457,6 +453,7 @@ div.smp-code a.brandon-quicklink-style {
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
+    padding: 0.15em 0;
 }
 
 
