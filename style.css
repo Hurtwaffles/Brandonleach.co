@@ -3,8 +3,9 @@
 	Description: Child Theme for Semplice
 	Author: Semplicelabs
 	Template: semplice7
-       Version: 1.0.6 - uniform SVG arrow weight
+  Version: 1.0.6 - uniform SVG arrow weight
 */
+
 
 /* Custom CSS Start */
 /* ========== BRANDON NAMESPACE: CSS VARIABLES ========== */
@@ -407,6 +408,7 @@ div.smp-code a.brandon-quicklink-style {
 	position: relative;
 	overflow: hidden;
 }
+
 .brandon-reveal-link-js .brandon-arrow {
         width: 1em;
         height: 1em;

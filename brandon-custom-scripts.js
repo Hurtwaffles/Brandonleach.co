@@ -518,6 +518,7 @@
         arrowMask.append(arrowOne, arrowTwo);
         link.append(arrowMask);
         link.classList.add(`brandon-arrow-${arrowDirection}`);
+
       }
     });
   }
