@@ -490,30 +490,19 @@
         arrowMask.className = 'brandon-arrow-mask';
         arrowMask.style.color = originalColor;
 
-        const createArrowSVG = (strokeWidth) => {
-          const ns = 'http://www.w3.org/2000/svg';
-          const svg = document.createElementNS(ns, 'svg');
-          svg.setAttribute('viewBox', '0 0 24 24');
-          const path = document.createElementNS(ns, 'path');
-          path.setAttribute('d', 'M4 12h12m0 0l-3-3m3 3l-3 3');
-          path.setAttribute('fill', 'none');
-          path.setAttribute('stroke', 'currentColor');
-          path.setAttribute('stroke-width', strokeWidth);
-          path.setAttribute('stroke-linecap', 'square');
-          path.setAttribute('stroke-linejoin', 'miter');
-          svg.appendChild(path);
-          return svg;
+        const createArrowImage = () => {
+          const img = document.createElement('img');
+          img.src = 'https://brandonleach.co/wp-content/uploads/2025/06/Arrow-02-01.webp';
+          img.alt = '';
+          return img;
         };
-
-        const rootStyles = window.getComputedStyle(document.documentElement);
-        const strokeWidth = parseFloat(rootStyles.getPropertyValue("--brandon-arrow-stroke-width")) || 2;
 
         const arrowOne = document.createElement('span');
         arrowOne.className = 'brandon-arrow brandon-arrow-one';
-        arrowOne.appendChild(createArrowSVG(strokeWidth));
+        arrowOne.appendChild(createArrowImage());
         const arrowTwo = document.createElement('span');
         arrowTwo.className = 'brandon-arrow brandon-arrow-two';
-        arrowTwo.appendChild(createArrowSVG(strokeWidth));
+        arrowTwo.appendChild(createArrowImage());
         arrowMask.append(arrowOne, arrowTwo);
         link.append(arrowMask);
         link.classList.add(`brandon-arrow-${arrowDirection}`);
