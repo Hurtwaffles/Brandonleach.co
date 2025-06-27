@@ -3,7 +3,7 @@
 	Description: Child Theme for Semplice
 	Author: Semplicelabs
 	Template: semplice7
-       Version: 1.0.7 - Arrow image
+       Version: 1.0.8 - Arrow image
 */
 
 /* Custom CSS Start */
@@ -428,12 +428,6 @@ div.smp-code a.brandon-quicklink-style {
     transform: translate(-50%, -50%); /* Enters at center */
 }
 
-.brandon-word-mask {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: top;
-    padding: 0.15em 0;
-}
 
 
 /* Custom CSS End */
