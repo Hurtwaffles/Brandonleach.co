@@ -3,6 +3,7 @@
  * Semplice Child Theme - functions.php
  *
  * Enqueues all custom and third-party scripts for the front-end only.
+ * Configures theme support for Semplice SPA features.
  */
 
 // Prevent direct access
@@ -12,19 +13,18 @@ if (!defined('ABSPATH')) {
 
 function brandon_enqueue_custom_scripts() {
     if (is_admin()) {
-        return;
+        return; // Only enqueue for the front-end
     }
 
     // --- STYLES ---
     wp_enqueue_style(
-        'brandon-custom-styles',
+        'semplice-child-theme-styles',
         get_stylesheet_uri(),
-        array(),
-        '1.0.8'
+        array('semplice-frontend-stylesheet-css'),
+        '1.1.7' // Custom Overlay Menu System
     );
 
     // --- THIRD-PARTY LIBRARIES ---
-
     // P5.js
     wp_enqueue_script(
         'brandon-p5',
@@ -34,11 +34,11 @@ function brandon_enqueue_custom_scripts() {
         true
     );
 
-    // GSAP Plugins - DEPENDENT ON SEMPLICE'S FRONTEND SCRIPT
+    // GSAP Plugins
     wp_enqueue_script(
         'brandon-gsap-ce',
         'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js',
-        array('semplice-frontend-js'), // Depends on the parent theme's script
+        array('semplice-frontend-js'),
         '3.13.0',
         true
     );
@@ -46,7 +46,7 @@ function brandon_enqueue_custom_scripts() {
     wp_enqueue_script(
         'brandon-gsap-st',
         'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js',
-        array('semplice-frontend-js'), // Depends on the parent theme's script
+        array('semplice-frontend-js'),
         '3.13.0',
         true
     );
@@ -54,19 +54,32 @@ function brandon_enqueue_custom_scripts() {
     wp_enqueue_script(
         'brandon-gsap-stg',
         'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js',
-        array('semplice-frontend-js'), // Depends on the parent theme's script
+        array('semplice-frontend-js'),
         '3.13.0',
         true
     );
-
+    
+    wp_enqueue_script(
+        'brandon-gsap-scramble',
+        'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrambleTextPlugin.min.js',
+        array('semplice-frontend-js'),
+        '3.13.0',
+        true
+    );
 
     // --- CUSTOM JS ---
     wp_enqueue_script(
         'brandon-custom-scripts',
         get_stylesheet_directory_uri() . '/brandon-custom-scripts.js',
-        array('brandon-p5', 'brandon-gsap-ce', 'brandon-gsap-st', 'brandon-gsap-stg'),
-        '3.2.7', // Incremented version
+        array('brandon-p5', 'brandon-gsap-ce', 'brandon-gsap-st', 'brandon-gsap-stg', 'brandon-gsap-scramble'),
+        '3.8.1', // VERSION BUMP - Overlay Menu System
         true
     );
 }
 add_action( 'wp_enqueue_scripts', 'brandon_enqueue_custom_scripts', 20 );
+
+// --- SEMPLICE SPECIFIC THEME SUPPORT ---
+function brandon_add_semplice_theme_support() {
+    add_theme_support( 'semplice-spa' );
+}
+add_action( 'after_setup_theme', 'brandon_add_semplice_theme_support' );
