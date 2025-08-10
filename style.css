@@ -3,10 +3,11 @@
 	Description: Child Theme for Semplice
 	Author: Semplicelabs
 	Template: semplice7
-       Version: 1.0.8 - Arrow image
+    Version: 1.1.7 - Custom Overlay Menu System
 */
 
 /* Custom CSS Start */
+
 /* ========== BRANDON NAMESPACE: CSS VARIABLES ========== */
 :root {
 	--brandon-text-color: #F2F2F3;
@@ -14,8 +15,8 @@
 	--brandon-accent-color: #0202ED;
 	--brandon-font-family: 'soehne-mono-buch', monospace, sans-serif;
 	--brandon-font-size-base: 1.167rem;
-	--brandon-font-size-large: 18pt;
-	--brandon-font-size-small: 12pt;
+	--brandon-font-size-large: 1.5rem;
+	--brandon-font-size-small: 1rem;
 	--brandon-letter-spacing: 0.1rem;
 	--brandon-letter-spacing-tight: 0.05rem;
 	--brandon-transition-ease: cubic-bezier(.77,0,.18,1);
@@ -24,11 +25,30 @@
 	--brandon-heading-font-size: 9rem;
 }
 
+@media (max-width: 768px) {
+	:root {
+		--brandon-font-size-base: 1rem;
+		--brandon-font-size-large: 1.25rem;
+		--brandon-font-size-small: 0.875rem;
+		--brandon-heading-font-size: 6rem;
+	}
+}
+
+@media (max-width: 480px) {
+	:root {
+		--brandon-font-size-base: 0.9rem;
+		--brandon-font-size-large: 1.125rem;
+		--brandon-font-size-small: 0.75rem;
+		--brandon-heading-font-size: 3.5rem;
+	}
+}
+
 /* ========== BRANDON NAMESPACE: ENHANCED BUTTONS & LOGO ANIMATIONS ========== */
 .brandon-logo-reveal-link,
 .brandon-animated-button-reveal {
 	display: inline-flex;
-	align-items: center;
+	align-items: baseline;
+	vertical-align: baseline;
 	text-decoration: none;
 	font-family: var(--brandon-font-family);
 	font-size: var(--brandon-font-size-base);
@@ -40,7 +60,7 @@
 	margin: 0;
 	cursor: pointer;
 	letter-spacing: var(--brandon-letter-spacing);
-	transition: all 0.3s var(--brandon-transition-ease);
+	transition: filter 0.3s var(--brandon-transition-ease), transform 0.3s var(--brandon-transition-ease);
 	position: relative;
 }
 
@@ -61,6 +81,7 @@
 	overflow: hidden;
 	height: 1.1em;
 	line-height: 1;
+    vertical-align: baseline;
 }
 
 .brandon-logo-reveal-text,
@@ -74,6 +95,7 @@
 	font-family: inherit;
 	letter-spacing: inherit;
 	line-height: inherit;
+	color: inherit;
 	pointer-events: none;
 	transition: transform 0.45s var(--brandon-transition-ease);
 	will-change: transform;
@@ -117,7 +139,6 @@
 }
 
 /* ========== TYPOGRAPHY & SIZING: HEADING MODIFIER ========== */
-
 .brandon-animated-button-reveal.is-heading {
 	display: block;
 	width: 100%;
@@ -133,81 +154,82 @@
 	height: 1.1em;
 }
 
-/* ========== BRANDON NAMESPACE: ARROW STYLING ========== */
+/* ========== BRANDON NAMESPACE: ARROW STYLING (UPDATED FOR SVG) ========== */
 .brandon-arrow-mask {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	width: 1.1em;
 	height: 1.1em;
-	margin-left: 8px;
+	margin-left: 0.3em;
 	position: relative;
 	overflow: hidden;
+    vertical-align: middle;
+    /* Color will be set dynamically by JavaScript */
+    color: inherit;
 }
 
 .brandon-arrow {
-        width: 1.1em;
-        height: 1.1em;
-        display: inline-block;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        transition: transform 0.45s var(--brandon-transition-ease);
-        will-change: transform;
-        pointer-events: none;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    position: absolute;
+    transform-origin: center center; 
+    transition: transform 0.45s var(--brandon-transition-ease);
+    will-change: transform;
+    pointer-events: none;
+    left: 50%;
+    top: 50%;
 }
 
-.brandon-arrow img,
 .brandon-arrow svg {
-        width: 100%;
-        height: 100%;
-        display: block;
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* Inherit color from parent - will be set by JavaScript */
+    color: currentColor;
 }
 
-.brandon-arrow-diag-up .brandon-arrow img,
-.brandon-arrow-diag-up .brandon-arrow svg {
-        transform: rotate(-45deg);
+/* --- Arrow Animation Logic --- */
+
+/* Base State (before hover) */
+.brandon-reveal-link-js .brandon-arrow-one { z-index: 2; }
+.brandon-reveal-link-js .brandon-arrow-two { z-index: 1; }
+
+/* UP ARROW (+45 deg) */
+.brandon-reveal-link-js.brandon-arrow-diag-up .brandon-arrow {
+    /* Set base rotation and scale for all arrows in this button */
+    transform: translate(-50%, -50%) rotate(-45deg) scale(1);
 }
-.brandon-arrow-diag-down .brandon-arrow img,
-.brandon-arrow-diag-down .brandon-arrow svg {
-        transform: rotate(45deg);
+.brandon-reveal-link-js.brandon-arrow-diag-up .brandon-arrow-two {
+    /* Start position for the incoming arrow */
+    transform: translate(-150%, 50%) rotate(-45deg) scale(1);
+}
+.brandon-reveal-link-js.brandon-arrow-diag-up:hover .brandon-arrow-one {
+    /* Exit position for the outgoing arrow */
+    transform: translate(50%, -150%) rotate(-45deg) scale(1);
+}
+.brandon-reveal-link-js.brandon-arrow-diag-up:hover .brandon-arrow-two {
+    /* Final position for the incoming arrow */
+    transform: translate(-50%, -50%) rotate(-45deg) scale(1);
 }
 
-.brandon-animated-button-reveal.brandon-arrow-diag-up .brandon-arrow-one {
-	transform: translate(-50%, -50%);
-	z-index: 2;
+/* DOWN ARROW (-45 deg) */
+.brandon-reveal-link-js.brandon-arrow-diag-down .brandon-arrow {
+    /* Set base rotation and scale */
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
 }
-.brandon-animated-button-reveal.brandon-arrow-diag-up .brandon-arrow-two {
-	transform: translate(-150%, 50%);
-	z-index: 1;
+.brandon-reveal-link-js.brandon-arrow-diag-down .brandon-arrow-two {
+    /* Start position */
+    transform: translate(-150%, -150%) rotate(45deg) scale(1);
 }
-
-.brandon-animated-button-reveal.brandon-arrow-diag-down .brandon-arrow-one {
-	transform: translate(-50%, -50%);
-	z-index: 2;
+.brandon-reveal-link-js.brandon-arrow-diag-down:hover .brandon-arrow-one {
+    /* Exit position */
+    transform: translate(50%, 50%) rotate(45deg) scale(1);
 }
-.brandon-animated-button-reveal.brandon-arrow-diag-down .brandon-arrow-two {
-	transform: translate(-150%, -150%);
-	z-index: 1;
-}
-
-.brandon-animated-button-reveal.brandon-arrow-diag-up:hover .brandon-arrow-one,
-.brandon-animated-button-reveal.brandon-arrow-diag-up:focus .brandon-arrow-one {
-	transform: translate(50%, -150%);
-}
-.brandon-animated-button-reveal.brandon-arrow-diag-up:hover .brandon-arrow-two,
-.brandon-animated-button-reveal.brandon-arrow-diag-up:focus .brandon-arrow-two {
-	transform: translate(-50%, -50%);
-}
-
-.brandon-animated-button-reveal.brandon-arrow-diag-down:hover .brandon-arrow-one,
-.brandon-animated-button-reveal.brandon-arrow-diag-down:focus .brandon-arrow-one {
-	transform: translate(50%, 50%);
-}
-.brandon-animated-button-reveal.brandon-arrow-diag-down:hover .brandon-arrow-two,
-.brandon-animated-button-reveal.brandon-arrow-diag-down:focus .brandon-arrow-two {
-	transform: translate(-50%, -50%);
+.brandon-reveal-link-js.brandon-arrow-diag-down:hover .brandon-arrow-two {
+    /* Final position */
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
 }
 
 
@@ -229,7 +251,6 @@
 	border-radius: 50%;
 	transform-origin: center center;
 }
-
 
 /* ========== BRANDON NAMESPACE: CANVAS BACKGROUND LAYERS ========== */
 smp-section.brandon-bg-load-wave,
@@ -258,63 +279,46 @@ smp-section.brandon-bg-main-bg2 .smp-content-wrapper {
 	z-index: 1;
 }
 
-/* ========== BRANDON NAMESPACE: COLOR VARIANTS ========== */
-.brandon-animated-button-reveal.brandon-dark-text {
+/* ========== BRANDON NAMESPACE: COLOR & SIZE VARIANTS ========== */
+.brandon-animated-button-reveal.brandon-dark-text,
+.brandon-reveal-link-js.brandon-dark-text {
 	color: var(--brandon-dark-text-color);
 }
 
-.brandon-animated-button-reveal.brandon-accent-text {
+.brandon-animated-button-reveal.brandon-accent-text,
+.brandon-reveal-link-js.brandon-accent-text {
 	color: var(--brandon-accent-color);
 }
 
-/* ========== BRANDON NAMESPACE: DOTS GRID MENU ICON - DARK THEME VARIANT ========== */
 .brandon-dots-grid-trigger.brandon-dots-dark-theme .brandon-dots-grid .brandon-dot {
 	background-color: var(--brandon-dark-text-color);
 }
 
-/* ========== BRANDON NAMESPACE: SIZE VARIANTS ========== */
-.brandon-animated-button-reveal.brandon-large {
+.brandon-animated-button-reveal.brandon-large,
+.brandon-reveal-link-js.brandon-large {
 	font-size: var(--brandon-font-size-large);
 }
 
-.brandon-animated-button-reveal.brandon-small {
+.brandon-animated-button-reveal.brandon-small,
+.brandon-reveal-link-js.brandon-small {
 	font-size: var(--brandon-font-size-small);
 }
 
-.brandon-animated-button-reveal.brandon-tight-spacing {
+.brandon-animated-button-reveal.brandon-tight-spacing,
+.brandon-reveal-link-js.brandon-tight-spacing {
 	letter-spacing: var(--brandon-letter-spacing-tight);
-}
-
-/* ========== BRANDON NAMESPACE: RESPONSIVE ENHANCEMENTS ========== */
-@media (max-width: 768px) {
-	:root {
-		--brandon-font-size-base: 1rem;
-		--brandon-font-size-large: 16pt;
-		--brandon-font-size-small: 11pt;
-		--brandon-heading-font-size: 6rem;
-	}
-}
-	
-@media (max-width: 480px) {
-	:root {
-		--brandon-font-size-base: 0.9rem;
-		--brandon-font-size-large: 14pt;
-		--brandon-font-size-small: 10pt;
-		--brandon-heading-font-size: 3.5rem;
-	}
 }
 
 /* ========== BRANDON NAMESPACE: PERFORMANCE OPTIMIZATIONS ========== */
 .brandon-animated-button-reveal,
-.brandon-logo-reveal-link {
-	will-change: transform;
+.brandon-logo-reveal-link,
+.brandon-reveal-link-js {
+	will-change: transform, filter;
 	transform: translateZ(0);
 	backface-visibility: hidden;
 }
 
 /* ========== BRANDON NAMESPACE: CLEAN STYLING & ALIGNMENT HELPERS (V2) ========== */
-
-/* This alignment wrapper remains the same and works correctly. */
 .brandon-align-wrapper-right {
     width: 100%;
     display: flex;
@@ -325,35 +329,29 @@ div.smp-code a.brandon-quicklink-style {
     font-family: 'Soehne-mono-kraftig', monospace, sans-serif;
     font-size: 0.667rem;
     letter-spacing: 0.028rem;
-    color: #2A2A2E; /* The dark color you need */
+    color: #2A2A2E;
 }
 
 /* ========== BRANDON NAMESPACE V4: Polished Animation System ========== */
-
 .brandon-reveal-link-js {
     position: relative;
     display: inline-flex;
     align-items: center;
     text-decoration: none;
-    /* FIX 1: Tighter line-height for a snugger fit. */
-    line-height: 1.1; 
-    transform: translateZ(0);
-    backface-visibility: hidden;
+    line-height: 1.1;
     cursor: pointer;
 }
 
 .brandon-reveal-link-js:active {
-    transform: scale(0.97); /* Slightly shrink the button */
+    transform: scale(0.97) translateZ(0);
 }
 
-/* The mask that creates the "reveal" effect. */
 .brandon-reveal-link-js .brandon-button-reveal-mask {
     display: inline-block;
     position: relative;
     overflow: hidden;
 }
 
-/* The text elements that move up and down. */
 .brandon-reveal-link-js .brandon-button-reveal-text {
     display: block;
     position: absolute;
@@ -361,7 +359,6 @@ div.smp-code a.brandon-quicklink-style {
     top: 0;
     width: 100%;
     height: 100%;
-    /* All visual styles are inherited from the Semplice link. */
     font-size: inherit;
     font-family: inherit;
     font-weight: inherit;
@@ -392,42 +389,30 @@ div.smp-code a.brandon-quicklink-style {
 
 .brandon-reveal-link-js .brandon-button-reveal-width-calibrator {
     visibility: hidden;
-    display: block; 
+    display: block;
 }
 
 
-/* --- V4 Arrow Styling (FIXED) --- */
+/* ========== BRANDON NAMESPACE: MINIMAL ARROW VISUAL CENTERING ========== */
 
-.brandon-reveal-link-js .brandon-arrow-mask {
-    margin-left: 0.3em;
-}
-
-
-/*
- * Corrected symmetrical arrow paths for true 45-degree animations.
-*/
-/* Up-arrow animation logic */
-.brandon-reveal-link-js.brandon-arrow-diag-up .brandon-arrow-two { 
-    transform: translate(-150%, 50%); /* Starts bottom-left */
-}
-.brandon-reveal-link-js.brandon-arrow-diag-up:hover .brandon-arrow-one { 
-    transform: translate(50%, -150%); /* Exits top-right */
-}
-.brandon-reveal-link-js.brandon-arrow-diag-up:hover .brandon-arrow-two { 
-    transform: translate(-50%, -50%); /* Enters at center */
+/* Surgical fix: Only adjust visual centering without touching Semplice's text system */
+.brandon-arrow-mask {
+    /* Keep existing 1.1em sizing (respects Semplice scaling) */
+    
+    /* Fix visual centering with capital letters */
+    vertical-align: baseline;
+    
+    /* Fine-tune vertical position to optically center with caps */
+    position: relative;
+    bottom: 0.06em; /* Small adjustment to match capital letter optical center */
+    
+    /* Slightly reduce margin for better optical spacing */
+    margin-left: 0.2em;
 }
 
-/* Down-arrow animation logic */
-.brandon-reveal-link-js.brandon-arrow-diag-down .brandon-arrow-two { 
-    transform: translate(-150%, -150%); /* Starts top-left */
+/* Make SVG stroke slightly thinner to better match Sohne Mono weight */
+.brandon-arrow svg {
+    stroke-width: 2.1; /* Reduced from 2.5 to better match font weight */
 }
-.brandon-reveal-link-js.brandon-arrow-diag-down:hover .brandon-arrow-one { 
-    transform: translate(150%, 150%); /* Exits bottom-right */
-}
-.brandon-reveal-link-js.brandon-arrow-diag-down:hover .brandon-arrow-two {
-    transform: translate(-50%, -50%); /* Enters at center */
-}
-
-
 
 /* Custom CSS End */
