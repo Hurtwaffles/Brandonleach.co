@@ -98,6 +98,7 @@
 
     const buttonSelector = '.brandon-animated-button-reveal, .brandon-logo-reveal-link';
     const workMenuSelector = '.brandon-work-menu-trigger';
+    let menuTextToggled = false;
     const pressEvents = ['mousedown', 'touchstart', 'keydown'];
     const releaseEvents = ['mouseup', 'mouseleave', 'touchend', 'touchcancel', 'keyup', 'blur'];
 
@@ -137,6 +138,21 @@
         } else {
           logDebug('Hamburger not found with common selectors.');
         }
+
+        // Toggle the menu text between "menu" and "close"
+        menuTextToggled = !menuTextToggled;
+        const newLabel = menuTextToggled ?
+          (workMenuTriggerElement.getAttribute('data-close-text') || 'close') :
+          (workMenuTriggerElement.getAttribute('data-open-text') || 'menu');
+
+        document.querySelectorAll(workMenuSelector).forEach(el => {
+          const topText = el.querySelector('.brandon-button-reveal-text.top');
+          const bottomText = el.querySelector('.brandon-button-reveal-text.bottom');
+          const calibrator = el.querySelector('.brandon-button-reveal-width-calibrator');
+          if (topText) topText.innerHTML = newLabel;
+          if (bottomText) bottomText.innerHTML = newLabel;
+          if (calibrator) calibrator.innerHTML = newLabel;
+        });
       }
     }, { capture: true });
   }
