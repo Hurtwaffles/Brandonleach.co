@@ -98,7 +98,6 @@
 
     const buttonSelector = '.brandon-animated-button-reveal, .brandon-logo-reveal-link';
     const workMenuSelector = '.brandon-work-menu-trigger';
-    let menuTextToggled = false;
     const pressEvents = ['mousedown', 'touchstart', 'keydown'];
     const releaseEvents = ['mouseup', 'mouseleave', 'touchend', 'touchcancel', 'keyup', 'blur'];
 
@@ -119,14 +118,22 @@
       }, { passive: true, capture: true });
     });
 
-    document.addEventListener('click', e => {
-      const clickedElement = isElement(e.target) ? e.target : null;
-      if (!clickedElement) return;
-
-      const workMenuTriggerElement = clickedElement.closest(workMenuSelector);
-      if (workMenuTriggerElement) {
+    document.querySelectorAll(workMenuSelector).forEach(el => {
+      el.addEventListener('click', e => {
         logDebug('Work menu trigger clicked!');
         e.preventDefault();
+
+        el.dataset.toggled = el.dataset.toggled === 'true' ? 'false' : 'true';
+        const newLabel = el.dataset.toggled === 'true'
+          ? (el.getAttribute('data-close-text') || 'close')
+          : (el.getAttribute('data-open-text') || 'menu');
+
+        const topText = el.querySelector('.brandon-button-reveal-text.top');
+        const bottomText = el.querySelector('.brandon-button-reveal-text.bottom');
+        const calibrator = el.querySelector('.brandon-button-reveal-width-calibrator');
+        if (topText) topText.innerHTML = newLabel;
+        if (bottomText) bottomText.innerHTML = newLabel;
+        if (calibrator) calibrator.innerHTML = newLabel;
 
         const hamburger = document.querySelector('.open-menu.menu-icon') ||
                           document.querySelector('.hamburger') ||
@@ -138,23 +145,8 @@
         } else {
           logDebug('Hamburger not found with common selectors.');
         }
-
-        // Toggle the menu text between "menu" and "close"
-        menuTextToggled = !menuTextToggled;
-        const newLabel = menuTextToggled ?
-          (workMenuTriggerElement.getAttribute('data-close-text') || 'close') :
-          (workMenuTriggerElement.getAttribute('data-open-text') || 'menu');
-
-        document.querySelectorAll(workMenuSelector).forEach(el => {
-          const topText = el.querySelector('.brandon-button-reveal-text.top');
-          const bottomText = el.querySelector('.brandon-button-reveal-text.bottom');
-          const calibrator = el.querySelector('.brandon-button-reveal-width-calibrator');
-          if (topText) topText.innerHTML = newLabel;
-          if (bottomText) bottomText.innerHTML = newLabel;
-          if (calibrator) calibrator.innerHTML = newLabel;
-        });
-      }
-    }, { capture: true });
+      });
+    });
   }
 
   let _brandonDotsGridMenuInitialized = false;
